@@ -134,6 +134,7 @@ end
         DCM          = [];
         [fp fn fe]   = fileparts(Data{s});
         DCM.name     = genvarname(['ERP_Mod_',num2str(nm),'_', fn, fe]);
+        DCM.name     = [fp '/' DCM.name];
         
         if exist([DCM.name '.mat']) == 2; 
             fprintf('found = skipping sub %d',s);
