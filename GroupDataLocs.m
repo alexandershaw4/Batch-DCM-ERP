@@ -4,14 +4,19 @@ function [s,p] = GroupDataLocs
 %
 % AS2016
 
-s{1} = '/Users/Alex/Desktop/Roving/NewERP'; % group folder
-p(1).xU.X     = eye(8);            % roving
-p(1).xU.name  = {'Deviant' 'r1','2','3','4','5','6','7'}; % condition names
-p(1).tCode    = 1:8;             % condition codes in SPM
+% s{1} = '/Users/Alex/Desktop/Roving/NewERP'; % group folder
+% p(1).xU.X     = eye(8);            % roving
+% p(1).xU.name  = {'Deviant' 'r1','2','3','4','5','6','7'}; % condition names
+% p(1).tCode    = 1:8;             % condition codes in SPM
+% p(1).d        = '*';            % subj directories
+% p(1).f        = 'ALL_Six*.mat';    % file to find
+
+s{1} = '/Users/Alex/Desktop/temp/'; % group folder
+p(1).xU.X     = eye(4);            % roving
+p(1).xU.name  = {'NeutralAll','HappyAll','AngryAll','FTAll'}; % condition names
+p(1).tCode    = 1:4;             % condition codes in SPM
 p(1).d        = '*';            % subj directories
-p(1).f        = 'ALL_Six*.mat';    % file to find
-
-
+p(1).f        = 'LFP_*.mat';    % file to find
 
 % s{1} = '/imaging/as08/FTD_MM_DCM_moresubs/cons1/'; % group folder
 % p(1).xU.X     = [1 0; 0 1];        % deviant on-off

@@ -70,13 +70,13 @@ function DCM = PrepData(DCM,Ns,tCode)
 
 DCM.M.U            = sparse(diag(ones(Ns,1)));  ... ignore [modes]
 DCM.options.trials = tCode;                     ... trial code [GroupDataLocs]
-DCM.options.Tdcm   = [1 200];       ... peristimulus time
+DCM.options.Tdcm   = [1 350];       ... peristimulus time
 DCM.options.Fdcm   = [4 48];        ... frequency window
 DCM.options.D      = 2;             ... downsample
 DCM.options.han    = 1;             ... apply hanning window
 DCM.options.h      = 4;             ... can't remember
 DCM.options.DoData = 1;             ... leave on [custom]
-DCM.options.Bdcm   = [-100 0];      ... baseline times [new!]
+DCM.options.Bdcm   = [-200 0];      ... baseline times [new!]
 DCM.options.Fltdcm = [1 15];        ... bp filter [new!]
 
 DCM.options.analysis      = 'ERP';  ... analyse type
@@ -85,7 +85,7 @@ DCM.options.spatial       = 'LFP';  ... spatial model [LFP]
 DCM.options.model         = 'CMC';  ... neural model
 DCM.options.Nmodes        = length(DCM.M.U);
 
-DCM.xY.name     = {'LIFG'  'LSTG'  'LAud'  'RIFG'  'RSTG'  'RAud'};
+DCM.xY.name     = {'L V1','R V1','L pSTS', 'R FFA'};
 DCM.Sname       = DCM.xY.name';
 DCM.xY.Ic       = [1:Ns];
 
@@ -141,7 +141,7 @@ end
         else
             
         DCM.xY.Dfile = Data{s};
-        Ns           = 6;
+        Ns           = 4;
         DCM.xU.X     = p.xU.X;       ... design matrix
         DCM.xU.name  = p.xU.name;    ... condition names
         tCode        = p.tCode;      ... condition index (in SPM)
@@ -154,8 +154,10 @@ end
         DCM.A{3} = L;                          ... lateral [modulatory]
         DCM.C    = C;                          ... [exogenous] inputs
         
-        DCM.A{1} = triu(ALL);                  ... forward
-        DCM.A{2} = tril(ALL);                  ... backward
+        %DCM.A{1} = triu(ALL);                  ... forward
+        %DCM.A{2} = tril(ALL);                  ... backward
+        DCM.A{1} = (ALL==1);
+        DCM.A{2} = (ALL==2);
         
         DCM.B(2:length(DCM.xU.X))=DCM.B;
         
@@ -189,8 +191,8 @@ DCM.CUSTOM.pE.T = zeros(Ns,4);                  ... population time const
 DCM.CUSTOM.pC.T = zeros(Ns,4)+1/8;              ... variances
 DCM.CUSTOM.gE.J = sparse([1 3 7],1,[.2 .8 .2],8,1)'; ... contributing states
 DCM.CUSTOM.gC.J = sparse([1 3 7],1,1/8       ,8,1)'; ... variances
-DCM.CUSTOM.gC.J = repmat(DCM.CUSTOM.gC.J,[3 1]);     ... contrib sources
-DCM.CUSTOM.gE.J = repmat(DCM.CUSTOM.gE.J,[3 1]);     ... variance
+%DCM.CUSTOM.gC.J = repmat(DCM.CUSTOM.gC.J,[3 1]);     ... contrib sources
+%DCM.CUSTOM.gE.J = repmat(DCM.CUSTOM.gE.J,[3 1]);     ... variance
 
 
 end

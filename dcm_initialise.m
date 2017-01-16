@@ -11,7 +11,7 @@ function D = dcm_initialise()
 
 % check MODELS.m and GroupDataLocs.m are set!
 H = pwd; 
-M = which('MODELS.m');      if isempty(G); disp('Check MODELS.m in path'); return; end
+M = which('MODELS.m');      if isempty(M); disp('Check MODELS.m in path'); return; end
 G = which('GroupDataLocs'); if isempty(G); disp('Check GroupDataLocs.m in path'); return; end
 
 
