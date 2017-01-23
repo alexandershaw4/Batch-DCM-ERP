@@ -133,7 +133,7 @@ end
         %--------------------------------------------
         DCM          = [];
         [fp fn fe]   = fileparts(Data{s});
-        DCM.name     = genvarname(['ERP_Mod_',num2str(nm),'_', fn, fe]);
+        DCM.name     = genvarname(['testERP_Mod_',num2str(nm),'_', fn, fe]);
         DCM.name     = [fp '/' DCM.name];
         
         if exist([DCM.name '.mat']) == 2; 
@@ -154,10 +154,10 @@ end
         DCM.A{3} = L;                          ... lateral [modulatory]
         DCM.C    = C;                          ... [exogenous] inputs
         
-        %DCM.A{1} = triu(ALL);                  ... forward
-        %DCM.A{2} = tril(ALL);                  ... backward
-        DCM.A{1} = (ALL==1);
-        DCM.A{2} = (ALL==2);
+        DCM.A{1} = triu(ALL);                  ... forward
+        DCM.A{2} = tril(ALL);                  ... backward
+        %DCM.A{1} = (ALL==1);
+        %DCM.A{2} = (ALL==2);
         
         DCM.B(2:length(DCM.xU.X))=DCM.B;
         
