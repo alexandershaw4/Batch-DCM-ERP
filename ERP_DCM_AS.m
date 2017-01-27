@@ -154,10 +154,10 @@ end
         DCM.A{3} = L;                          ... lateral [modulatory]
         DCM.C    = C;                          ... [exogenous] inputs
         
-        DCM.A{1} = triu(ALL);                  ... forward
-        DCM.A{2} = tril(ALL);                  ... backward
-        %DCM.A{1} = (ALL==1);
-        %DCM.A{2} = (ALL==2);
+        %DCM.A{1} = triu(ALL);                  ... forward
+        %DCM.A{2} = tril(ALL);                  ... backward
+        DCM.A{1} = (ALL==1);
+        DCM.A{2} = (ALL==2);
         
         DCM.B(2:length(DCM.xU.X))=DCM.B;
         
@@ -186,6 +186,10 @@ DCM.CUSTOM.pC.G = zeros(Ns,13);                 ... variance [off]
 
 Self = find(diag(speye(Ns).*( DCM.A{1}+DCM.A{2} ))); % SP gain only if in model
 DCM.CUSTOM.pC.G(Self,7) = 1/8;
+
+% Remove self conns from extrinsic connectivity matrix?
+DCM.A{1} = DCM.A{1}.*~eye(Ns);
+DCM.A{2} = DCM.A{2}.*~eye(Ns);
 
 DCM.CUSTOM.pE.T = zeros(Ns,4);                  ... population time const
 DCM.CUSTOM.pC.T = zeros(Ns,4)+1/8;              ... variances
