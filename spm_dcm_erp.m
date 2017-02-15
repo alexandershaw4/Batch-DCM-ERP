@@ -142,8 +142,10 @@ try, M = rmfield(M,'g'); end
 % check for trial specific inputs
 %--------------------------------------------------------------------------
 if multC
-    pE.C(:,:,2) = pE.C(:,:,1);
-    pC.C(:,:,2) = pC.C(:,:,1);
+    for i = 1:(Nt-1)
+        pE.C(:,:,i+1) = pE.C(:,:,1);
+        pC.C(:,:,i+1) = pC.C(:,:,1);
+    end
 end
 
 % priors on spatial model

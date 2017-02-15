@@ -133,7 +133,7 @@ end
         %--------------------------------------------
         DCM          = [];
         [fp fn fe]   = fileparts(Data{s});
-        DCM.name     = genvarname(['testERP_Mod_',num2str(nm),'_', fn, fe]);
+        DCM.name     = genvarname(['ERP_Mod_',num2str(nm),'_', fn, fe]);
         DCM.name     = [fp '/' DCM.name];
         
         if exist([DCM.name '.mat']) == 2; 
@@ -284,6 +284,9 @@ end
 function DCM = MakeAndInvert(DCM)
 
 DCM.CUSTOM.nograph   = 1;
+
+DCM.options.multiC = 1;
+
 DCM = spm_dcm_erp(DCM);
 
 end
