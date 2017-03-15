@@ -68,7 +68,7 @@ for i = 1:length(X)
     %----------------------------------------------------------------------
     try
         % Alex: vector specifying trial spec conns
-        ACTI = [1 4 7 10]; ... SS-SS / II-II / SP-SS / DP-DP
+        ACTI = [1 4 7 10]; ... SS-SS / II-II / SP-SP / DP-DP
        %Q.G(:,1)    = Q.G(:,1) + X(i)*diag(P.B{i});
         Q.G(:,ACTI) = Q.G(:,ACTI) +  repmat( X(i)*diag(P.B{i}) , [1 length(ACTI)] );
     end
