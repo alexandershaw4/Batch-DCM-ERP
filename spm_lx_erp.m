@@ -34,6 +34,8 @@ l = kron(P.J(1,:),L);
 % confined, so 3 nodes (IFG, STG & A1). The order of nodes is:
 % 1 = LIFG, 2 = LSTG, 3=LA1, 4 = RIFG, 5 = RSTG, 6 = RA1
 
+try 
+
 L1 = kron(P.J(1,:),L); % IFG's
 L2 = kron(P.J(2,:),L); % STG's
 L3 = kron(P.J(3,:),L); % A1's
@@ -57,3 +59,7 @@ L(3,39) = L3(3,39);
 L(4,40) = L1(4,40);
 L(5,41) = L2(5,41);
 L(6,42) = L3(6,42);
+
+catch 
+    L       = kron(P.J,L); 
+end
