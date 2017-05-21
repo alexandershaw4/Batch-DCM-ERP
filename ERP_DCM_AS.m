@@ -89,11 +89,6 @@ DCM.xY.name     = {'L V1','R V1','L pSTS', 'R FFA'};
 DCM.Sname       = DCM.xY.name';
 DCM.xY.Ic       = [1:Ns];
 
-ForceCheck = 0; % this will force checktrialcodes [see below before using]
-
-if ForceCheck; 
-    DCM = checktrialcodes(DCM);
-end
 
 DCM = spm_dcm_erp_data(DCM);
 
@@ -201,85 +196,6 @@ DCM.CUSTOM.gC.J = sparse([1 3 7],1,1/8       ,8,1)'; ... variances
 
 end
 
-
-
-function DCM = checktrialcodes(DCM)
-% This will load up an SPM file and grab the condition names. It will check
-% that your suplied codes exist and match the names. Provide strings in 'd' and 'S'
-% below (which were for standard and deviant in my mismatch data example),
-% to auto-select the correct codes if yours are wrong.
-
-D = spm_eeg_load(DCM.xY.Dfile);
-C = D.condlist;
-n = DCM.options.trials;
-
-%d = {'Deviant','Dev','FreqDev','FreDev','Freq'};  % possible names
-%S = {'Standard','FreqStd','FreStd','StdF','Std'}; % possible names
-d = {'Deviant','Dev','DevAll'};
-S = {'Standard','Std','StdAll'};
-
-try C(n(1)); catch [n(1),DCM.options.trials(1)] = deal(1); end
-try C(n(2)); catch [n(2),DCM.options.trials(2)] = deal(1); end
-
-% SEARCH FOR MATCHING TRIAL NAME: DEVIANT
-if ~ismember(C(n(1)),d);
-    for i = 1:length(d)
-        f = (strfind(C,d{i}));
-        F = find(~cellfun(@isempty,f));
-        if ~isempty(F); 
-            DCM.options.trials(1) = F; 
-            fprintf('\nchanging trial code for deviant to %d\n',F);
-            DoGrabAll = 0;
-            break;
-        end
-    end
-    if isempty(F); 
-        DoGrabAll = 1; 
-    end
-else DoGrabAll = 0;
-end
-
-% IF DEVIANT NOT FOUND, FIND DEVIANTS SEPERATELY
-if DoGrabAll == 1
-    All = {'Dur','Freq','Gap','Int','Side'};
-    if sum(ismember(C,All)) > 4
-        %DCM.options.trials(1)
-        DCM.options.TRIALZ1 = find(ismember(C,All));
-    end
-end
-
-clear DoGrabAll
-clear F f
-
-% SEARCH FOR MATCHING TRIAL NAME: DEVIANT
-if ~ismember(C(n(2)),S);
-    for i = 1:length(S)
-        f = (strfind(C,S{i}));
-        F = find(~cellfun(@isempty,f));
-        if ~isempty(F); 
-            if length(F) > 1; F = find(strcmp(C,'StdAll')); end
-            DCM.options.trials(2) = F; 
-            fprintf('\nchanging trial code for standard to %d\n',F);
-            DoGrabAll = 0;
-            break; 
-        end
-    end
-    if isempty(F)
-        DoGrabAll = 1;
-    end
-else DoGrabAll = 0;
-end
-
-% IF STD NOT FOUND, FIND STDS SEPERATELY
-if DoGrabAll == 1
-    All = {'StdD','StdF','StdG','StdI','StdS'};
-    if sum(ismember(C,All)) > 4
-        %DCM.options.trials(2) 
-        DCM.options.TRIALZ2 = find(ismember(C,All));
-    end
-end
-   
-end
 
 function DCM = MakeAndInvert(DCM)
 
