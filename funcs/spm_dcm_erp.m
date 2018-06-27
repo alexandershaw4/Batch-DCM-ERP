@@ -253,10 +253,6 @@ try M.nograph = DCM.CUSTOM.nograph; end
 % EM: inversion
 %==========================================================================
 [Qp,Qg,Cp,Cg,Ce,F,LE] = spm_nlsi_N(M,xU,xY);
-%try   [Qp,Qg,Cp,Cg,Ce,F,LE] = spm_nlsi_N(M,xU,xY);
-%catch M.x = M.x+randn(size(M.x));
-%      [Qp,Qg,Cp,Cg,Ce,F,LE] = spm_nlsi_N(M,xU,xY);
-%end
 
 % Data ID
 %==========================================================================
@@ -287,8 +283,8 @@ x   = feval(M.IS,Qp,M,xU);              % prediction (source space)
 
 % trial-specific responses (in mode, channel and source space)
 %--------------------------------------------------------------------------
-%j   = find(kron( Qg.J,               ones(1,Nr)));      % Indices of contributing states
-j    = find(kron( logical(sum(Qg.J)), ones(1,Nr)));
+j   = find(kron( Qg.J,               ones(1,Nr)));      % Indices of contributing states
+%j    = find(kron( logical(sum(Qg.J)), ones(1,Nr)));
 
 x0  = ones(Ns,1)*spm_vec(M.x)';         % expansion point for states
 for i = 1:Nt
@@ -420,7 +416,7 @@ end
 
 % remove dipfit stucture to save memory
 %--------------------------------------------------------------------------
-DCM.M  = rmfield(DCM.M,'dipfit');
+%DCM.M  = rmfield(DCM.M,'dipfit');
 
 % and save
 %--------------------------------------------------------------------------
